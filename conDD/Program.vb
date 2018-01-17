@@ -49,7 +49,7 @@ Module Program
             OutputDir = args(1)
         End If
 
-        If Not IO.File.Exists(InputFile) Then
+        If Not Exists(InputFile) Then
             Console.WriteLine($"File '{InputFile}' does not exist")
             Return 1
         End If
@@ -66,6 +66,9 @@ Module Program
 
             OutputFileBase = $"{OutputDir}\{day}_{month}_{year}_baza{Extension}"
             OutputFileTVA = $"{OutputDir}\{day}_{month}_{year}_TVA{Extension}"
+
+            If Exists(OutputFileBase) Then Delete(OutputFileBase)
+            If Exists(OutputFileTVA) Then Delete(OutputFileTVA)
 
         End If
 
