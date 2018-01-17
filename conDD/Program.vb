@@ -1,4 +1,5 @@
 Imports System
+Imports System.IO.File
 
 Module Program
 
@@ -14,8 +15,25 @@ Module Program
 
         If ParseArgs(args) <> 0 Then Exit Sub
 
-        Dim lines As String() = IO.File.ReadAllLines(InputFile)
+        Dim lines As String() = ReadAllLines(InputFile)
 
+        For Each line As String In lines
+
+            Dim items As String() = line.Split(";")
+
+            items(4) = items(4).Trim()
+
+            Dim base As Double = Math.Round(items(4) / 1.19, 2)
+            Dim tva As Double = items(4) - base
+
+            items(4) = base
+
+            AppendAllLines(OutputFileBase, {String.Join(";", items)})
+
+            items(4) = tva
+
+            AppendAllLines(OutputFileTVA, {String.Join(";", items)})
+        Next
 
 
 
@@ -37,17 +55,19 @@ Module Program
         End If
 
         Dim InputFileName As String = IO.Path.GetFileName(InputFile)
+        Dim Extension As String = IO.Path.GetExtension(InputFile)
 
         Dim m1 = Text.RegularExpressions.Regex.Match(InputFile, "directdebit(\d+)")
 
         If Not String.IsNullOrWhiteSpace(m1.Value) Then
-            Dim day As String
-            day = Mid(m1.Groups(1).Value, 7, 2)
-            Console.WriteLine($"day: {}")
+            Dim day As String = m1.Groups(1).Value.Substring(6, 2)
+            Dim month As String = m1.Groups(1).Value.Substring(4, 2)
+            Dim year As String = m1.Groups(1).Value.Substring(0, 4)
+
+            OutputFileBase = $"{OutputDir}\{day}_{month}_{year}_baza{Extension}"
+            OutputFileTVA = $"{OutputDir}\{day}_{month}_{year}_TVA{Extension}"
+
         End If
-
-        OutputFileBase = $"{OutputDir}\base.csv"
-
 
         Return 0
     End Function

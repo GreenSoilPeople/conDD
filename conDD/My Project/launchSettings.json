@@ -2,7 +2,7 @@
   "profiles": {
     "conDD": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\TEST\\directdebit\\nv55pd_directdebit20180113073002.CSV D:\\TEST\\directdebit"
+      "commandLineArgs": "D:\\wrk\\directdebit\\nv55pd_directdebit20180113073002.CSV D:\\wrk\\directdebit"
     }
   }
 }
